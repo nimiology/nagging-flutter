@@ -7,9 +7,11 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:nagging/helper/string_extension.dart';
 
+import '../helper/auth_jwt_token_helper.dart';
 import '../widgets/custom_text_field.dart';
 import '../widgets/login_button.dart';
 import 'login.dart';
+import 'nags.dart';
 
 class SignUpScreen extends StatefulWidget {
   static const routeName = '/signup-screen';
@@ -22,14 +24,13 @@ class SignUpScreen extends StatefulWidget {
 
 class _SignUpScreenState extends State<SignUpScreen>
     with SingleTickerProviderStateMixin {
-  final TextEditingController usernameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  final TextEditingController emailController = TextEditingController();
+
   bool sending = false;
+
   String errorText = '';
-  bool usernameError = false;
+
   bool passwordError = false;
-  bool emailError = false;
 
   void changeSendingState() {
     setState(() {
@@ -40,37 +41,63 @@ class _SignUpScreenState extends State<SignUpScreen>
   Future login(BuildContext context) async {
     if (!sending) {
       errorText = '';
-      usernameError = false;
       passwordError = false;
-      emailError = false;
 
       changeSendingState();
 
-      final username = usernameController.text;
       final password = passwordController.text;
-      final email = emailController.text;
 
-      if (username.isNotEmpty && password.isNotEmpty && email.isNotEmpty) {
-        if (email.isValidEmail()) {
+      if (password.isNotEmpty ) {
           try {
             http.Response response = await http.post(
-                Uri.parse('https://artgram.iran.liara.run/auth/users/'),
+                Uri.parse('https://twitterbutanonymous.pythonanywhere.com/auth/users/'),
                 body: {
-                  'username': username,
-                  'email': email,
                   'password': password
                 });
-            var tokensMap = json.decode(response.body);
+            final Map idMap = json.decode(response.body);
             switch (response.statusCode) {
               case 201:
                 {
+                  try {
+                    http.Response response = await http.post(
+                        Uri.parse('https://twitterbutanonymous.pythonanywhere.com/auth/jwt/create/'),
+                        body: {'id': idMap['id'], 'password': password});
+                    var tokensMap = json.decode(response.body);
+                    switch (response.statusCode) {
+                      case 200:
+                        {
+                          AuthToken.saveFromMap(tokensMap);
+                          Navigator.popAndPushNamed(context, NagsScreen.routeName);
+                          break;
+                        }
+                      case 400:
+                        {
+                          for (String? key in tokensMap.keys) {
+                            for (String? value in tokensMap[key]) {
+                              errorText += '$key: $value \n';
+                            }
+                          }
+                          break;
+                        }
+                      case 401:
+                        {
+                          for (String? key in tokensMap.keys) {
+                            errorText += '$key: ${tokensMap[key]}';
+                          }
+                        }
+                    }
+                  } on SocketException catch (_) {
+                    errorText = "There is no internet connection";
+                  } catch (e) {
+                    errorText = "Something went wrong";
+                  }
                   Navigator.pop(context);
                   break;
                 }
               case 400:
                 {
-                  for (String? key in tokensMap.keys) {
-                    for (String? value in tokensMap[key]) {
+                  for (String? key in idMap.keys) {
+                    for (String? value in idMap[key]) {
                       errorText += '$key: $value \n';
                     }
                   }
@@ -78,8 +105,8 @@ class _SignUpScreenState extends State<SignUpScreen>
                 }
               case 401:
                 {
-                  for (String? key in tokensMap.keys) {
-                    errorText += '$key: ${tokensMap[key]}';
+                  for (String? key in idMap.keys) {
+                    errorText += '$key: ${idMap[key]}';
                   }
                 }
             }
@@ -88,19 +115,9 @@ class _SignUpScreenState extends State<SignUpScreen>
           } catch (_) {
             errorText = "Something went wrong";
             throw (_);
-          }
-        } else {
-          emailError = true;
-          errorText = "Should be email.";
         }
-      } else if (username.isEmpty) {
-        usernameError = true;
-        errorText = "Fill the forms.";
-      } else if (password.isEmpty) {
+      } else {
         passwordError = true;
-        errorText = "Fill the forms.";
-      } else if (email.isEmpty) {
-        emailError = true;
         errorText = "Fill the forms.";
       }
 
@@ -146,22 +163,6 @@ class _SignUpScreenState extends State<SignUpScreen>
                       child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      CustomTextField(
-                        controller: usernameController,
-                        hintText: 'Username',
-                        svg: 'user.svg',
-                        enabled: !sending,
-                        error: usernameError,
-                      ),
-                      const SizedBox(height: 25),
-                      CustomTextField(
-                        controller: emailController,
-                        hintText: 'Email',
-                        svg: 'envelope.svg',
-                        enabled: !sending,
-                        error: emailError,
-                      ),
-                      const SizedBox(height: 25),
                       CustomTextField(
                         controller: passwordController,
                         hintText: 'Password',

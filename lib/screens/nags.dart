@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../widgets/nag.dart';
+
 class NagsScreen extends StatefulWidget {
   static const routeName = '/nags-screen';
   const NagsScreen({super.key});
@@ -11,6 +13,12 @@ class NagsScreen extends StatefulWidget {
 class _NagsScreenState extends State<NagsScreen> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold();
+    return Scaffold(
+      body: ListView(
+        children: [
+          Nag()
+        ],
+      ),
+    );
   }
 }

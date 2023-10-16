@@ -48,8 +48,8 @@ class _LoginScreenState extends State<LoginScreen>
       if (username.isNotEmpty && password.isNotEmpty) {
         try {
           http.Response response = await http.post(
-              Uri.parse('https://artgram.iran.liara.run/auth/jwt/create/'),
-              body: {'username': username, 'password': password});
+              Uri.parse('https://twitterbutanonymous.pythonanywhere.com/auth/jwt/create/'),
+              body: {'id': username, 'password': password});
           var tokensMap = json.decode(response.body);
           switch (response.statusCode) {
             case 200:
@@ -129,7 +129,7 @@ class _LoginScreenState extends State<LoginScreen>
                   children: [
                     CustomTextField(
                       controller: usernameController,
-                      hintText: 'Username',
+                      hintText: 'ID',
                       svg: 'user.svg',
                       enabled: !sending,
                       error: usernameError,
@@ -164,7 +164,7 @@ class _LoginScreenState extends State<LoginScreen>
                         title: 'Log In'),
                     const SizedBox(height: 35),
                     GestureDetector(
-                      onTap: () => Navigator.of(context).pushNamed(
+                      onTap: () => Navigator.of(context).popAndPushNamed(
                         SignUpScreen.routeName,
                       ),
                       child: Container(

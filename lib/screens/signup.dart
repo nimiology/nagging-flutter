@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:http/http.dart' as http;
-import 'package:nagging/helper/string_extension.dart';
 
 import '../helper/auth_jwt_token_helper.dart';
 import '../widgets/custom_text_field.dart';

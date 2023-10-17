@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'helper/auth_jwt_token_helper.dart';
 import 'screens/login.dart';
-import 'screens/nags.dart';
+import 'screens/nagging.dart';
 import 'screens/profile.dart';
 import 'screens/settings.dart';
 import 'screens/signup.dart';

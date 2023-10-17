@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/nag.dart';
+import '../widgets/Nagging_app_bar.dart';
 import '../widgets/infinite_scroll.dart';
 import '../widgets/nag.dart';
 
@@ -19,7 +20,9 @@ class _NagsScreenState extends State<NagsScreen> {
     return const Scaffold(
         body: InfiniteScrollScreen(
       getNags: Nag.getNags,
-      children: [],
+      children: [
+        NaggingAppBar(),
+      ],
     ));
   }
 }

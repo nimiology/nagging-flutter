@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import '../helper/auth_jwt_token_helper.dart';
 import 'user.dart';
@@ -11,7 +12,8 @@ class Nag {
   final String content;
   final DateTime createdAt;
   final Nag? reply;
-  final bool? userLike;
+  int? userLike;
+  int likesCount;
 
   Nag({
     required this.id,
@@ -20,18 +22,51 @@ class Nag {
     required this.createdAt,
     this.reply,
     this.userLike,
+    required this.likesCount,
   });
+
+  Future<int?> like() async {
+    String? token = await AuthToken.accessToken();
+    try {
+      if (userLike != null) {
+        http.Response response = await http.delete(
+            Uri.parse(
+                'https://twitterbutanonymous.pythonanywhere.com/like/${userLike.toString()}/'),
+            headers: {'Authorization': "Bearer $token"});
+        if (response.statusCode == 204) {
+          likesCount -= 1;
+          userLike = null;
+        }
+      } else {
+        http.Response response = await http.post(
+            Uri.parse('https://twitterbutanonymous.pythonanywhere.com/like/'),
+            body: {'tweet': id.toString()},
+            headers: {'Authorization': "Bearer $token"});
+        if (response.statusCode == 201) {
+          likesCount += 1;
+          final likeData = json.decode(response.body);
+          userLike = likeData['id'];
+        }
+      }
+    } on SocketException catch (_) {
+      print("There is no internet connection");
+    } catch (_) {
+      throw _;
+    }
+    return userLike;
+  }
 
   static Nag nagFromDict(Map nagJson) {
     return Nag(
       id: nagJson['id'],
-      owner: User.minimalUserFromMap(nagJson['artist']),
+      owner: User.minimalUserFromMap(nagJson['owner']),
       content: nagJson['content'],
       createdAt: DateTime.parse(
         nagJson['created_at'],
       ),
       reply: nagJson['reply'],
       userLike: nagJson['user_like'],
+      likesCount: nagJson['likes_count'],
     );
   }
 
@@ -49,7 +84,8 @@ class Nag {
     try {
       String? token = await AuthToken.accessToken();
       http.Response response = await http.get(
-          Uri.parse('https://api.hallery.art/art/?owner=$owner&reply=$reply'
+          Uri.parse(
+              'https://twitterbutanonymous.pythonanywhere.com/tweet/?owner=$owner&reply=$reply'
               '&content__icontains=$content__icontains&created_at__gte=$created_at__gte'
               '&created_at__lte=$created_at__lte&created_at=$created_at'
               '&ordering=$ordering&offset=$offset&limit=$limit'),
@@ -59,6 +95,7 @@ class Nag {
       for (Map nagJson in nagsJson) {
         nags.add(Nag.nagFromDict(nagJson));
       }
+
       return nags;
     } catch (_) {
       rethrow;

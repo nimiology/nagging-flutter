@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:share_plus/share_plus.dart';
 
-class NagWidget extends StatelessWidget {
-  final userLike = null;
+import '../models/nag.dart';
 
-  const NagWidget({super.key});
+class NagWidget extends StatelessWidget {
+  final Nag nag;
+
+  const NagWidget({super.key, required this.nag});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +19,7 @@ class NagWidget extends StatelessWidget {
         children: [
           SizedBox(
             child: Text(
-              '1',
+              nag.owner.id.toString(),
               style: theme.textTheme.titleLarge
                   ?.copyWith(fontWeight: FontWeight.w900),
             ),
@@ -26,7 +28,7 @@ class NagWidget extends StatelessWidget {
             height: 15,
           ),
           Text(
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',
+            nag.content,
             style: theme.textTheme.bodyLarge,
           ),
           const SizedBox(
@@ -38,17 +40,17 @@ class NagWidget extends StatelessWidget {
               GestureDetector(
                   onTap: () {},
                   child: SvgPicture.asset(
-                    (userLike != null)
+                    (nag.userLike != null)
                         ? 'assets/svg/solid-heart.svg'
                         : 'assets/svg/heart.svg',
                     width: 24,
                     height: 24,
-                    color: (userLike != null) ? Colors.red : Colors.white,
+                    color: (nag.userLike != null) ? Colors.red : Colors.white,
                   )),
               GestureDetector(
                   onTap: () {
                     Share.share(
-                        'check out this artwork https://twitterbutanonymous.pythonanywhere.com/tweet/${widget.painting!.id}',
+                        'check out this artwork https://twitterbutanonymous.pythonanywhere.com/tweet/${nag.id}',
                         subject: 'Check this artwork.');
                   },
                   child: SvgPicture.asset('assets/svg/share-nodes.svg',

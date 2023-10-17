@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../models/nag.dart';
 import '../widgets/infinite_scroll.dart';
 import '../widgets/nag.dart';
 
@@ -15,9 +16,9 @@ class NagsScreen extends StatefulWidget {
 class _NagsScreenState extends State<NagsScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
         body: InfiniteScrollScreen(
-      getNags: () {},
+      getNags: Nag.getNags,
       children: [],
     ));
   }

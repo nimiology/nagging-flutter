@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:share_plus/share_plus.dart';
 
 import '../models/nag.dart';
+import '../screens/profile.dart';
 
 class NagWidget extends StatefulWidget {
   final Nag nag;
@@ -41,11 +42,19 @@ class _NagWidgetState extends State<NagWidget> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(
-            child: Text(
-              widget.nag.owner.id.toString(),
-              style: theme.textTheme.titleLarge
-                  ?.copyWith(fontWeight: FontWeight.w900),
+          GestureDetector(
+            onTap: () {
+              Navigator.of(context).pushNamed(
+                ProfileScreen.routeName,
+                arguments: {"user": widget.nag.owner}
+              );
+            },
+            child: SizedBox(
+              child: Text(
+                widget.nag.owner.id.toString(),
+                style: theme.textTheme.titleLarge
+                    ?.copyWith(fontWeight: FontWeight.w900),
+              ),
             ),
           ),
           const SizedBox(

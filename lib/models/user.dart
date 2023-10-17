@@ -30,7 +30,7 @@ class User {
     String? token = await AuthToken.accessToken();
     try {
       http.Response response = await http.post(
-          Uri.parse('https://api.hallery.art/user/follow/user/$id/'),
+          Uri.parse('https://twitterbutanonymous.pythonanywhere.com/user/follow/user/$id/'),
           headers: {'Authorization': "Bearer $token"});
       if (response.statusCode != 200) {
         following = !following;
@@ -54,7 +54,7 @@ class User {
     String? token = await AuthToken.accessToken();
     try {
       http.Response response = await http.get(
-          Uri.parse('https://api.hallery.art/user/$id/follower/'
+          Uri.parse('https://twitterbutanonymous.pythonanywhere.com/user/$id/follower/'
               '?ordering=$ordering&offset=$offset&limit=$limit'),
           headers: {'Authorization': "Bearer $token"});
       final followersJson = json.decode(response.body);
@@ -75,7 +75,7 @@ class User {
     String? token = await AuthToken.accessToken();
     try {
       http.Response response = await http.get(
-          Uri.parse('https://api.hallery.art/user/$id/following/'
+          Uri.parse('https://twitterbutanonymous.pythonanywhere.com/user/$id/following/'
               '?ordering=$ordering&offset=$offset&limit=$limit'),
           headers: {'Authorization': "Bearer $token"});
       final followingJson = json.decode(response.body);
@@ -96,7 +96,7 @@ class User {
     try {
       var request = http.MultipartRequest(
         'PATCH',
-        Uri.parse('https://api.hallery.art/auth/users/me/'),
+        Uri.parse('https://twitterbutanonymous.pythonanywhere.com/auth/users/me/'),
       );
       request.headers.addAll({'Authorization': "Bearer $token"});
       if (bio != null || bioParameters != null) {
@@ -129,7 +129,7 @@ class User {
   static Future<User> requestUserWithID(int id) async {
     String? token = await AuthToken.accessToken();
     http.Response response = await http.get(
-        Uri.parse('https://api.hallery.art/user/get/$id'),
+        Uri.parse('https://twitterbutanonymous.pythonanywhere.com/user/get/$id'),
         headers: {'Authorization': "Bearer $token"});
     final userJson = json.decode(response.body);
     return User.userFromMap(userJson);
@@ -138,7 +138,7 @@ class User {
   static Future<User> me() async {
     String? token = await AuthToken.accessToken();
     http.Response response = await http.get(
-        Uri.parse('https://api.hallery.art/auth/users/me/'),
+        Uri.parse('https://twitterbutanonymous.pythonanywhere.com/auth/users/me/'),
         headers: {'Authorization': "Bearer $token"});
     final userJson = json.decode(response.body);
     return User.userFromMap(userJson);

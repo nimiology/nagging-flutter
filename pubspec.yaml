@@ -75,6 +75,8 @@ flutter:
     - assets/svg/heart-solid.svg
     - assets/svg/share-nodes.svg
     - assets/svg/comment.svg
+    - assets/svg/chevron-left.svg
+    - assets/svg/calendar.svg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

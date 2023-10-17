@@ -17,7 +17,8 @@ class AuthToken {
       if (refreshToken != null) {
         try {
           http.Response response = await http.post(
-              Uri.parse('https://api.hallery.art/auth/jwt/refresh/'),
+              Uri.parse(
+                  'https://twitterbutanonymous.pythonanywhere.com/auth/jwt/refresh/'),
               body: {'refresh': refreshToken});
 
           var tokensMap = json.decode(response.body);

@@ -45,7 +45,7 @@ class ProfileScreen extends StatelessWidget {
               } else {
                 return InfiniteScrollScreen(
                   functionParams: {
-                    #owner: user.id,
+                    #owner: user.id.toString(),
                     #ordering: '-created_date',
                   },
                   getNags: Nag.getNags,

@@ -96,7 +96,7 @@ class _SettingScreenState extends State<SettingScreen> {
                         if (!uploading) {
                           final User? updatedUser = await user.updateUser(
                               bioParameters: bio,
-                              linkParameters: link,
+                              // linkParameters: link,
                               locationParameters: location);
                           if (updatedUser != null) {
                             Navigator.pop(context, updatedUser);
@@ -120,7 +120,7 @@ class _SettingScreenState extends State<SettingScreen> {
           ),
           textField(bioController, 'Bio', true),
           textField(locationController, 'Location', false),
-          textField(linkController, 'Link', false),
+          // textField(linkController, 'Link', false),
         ],
       ),
     ));

@@ -121,6 +121,9 @@ class User {
         final user = User.userFromMap(userJson);
         return user;
       }
+      else{
+        print(request.body);
+      }
       print(userJson);
     } on SocketException catch (_) {
       print("There is no internet connection");

@@ -15,10 +15,12 @@ class ProfileScreen extends StatelessWidget {
 
   ProfileScreen({Key? key}) : super(key: key);
 
-  Future<void> loadData() async {
-    if (user != null) {
-      user = await user.minimalToAllFields();
+  Future<void> loadData(BuildContext context) async {
+    final routeArgs = ModalRoute.of(context)!.settings.arguments ?? {};
+    final route = routeArgs as Map;
 
+    if (route['user'] != null) {
+      user = await route['user'].minimalToAllFields();
     } else {
       isCurrentUser = true;
       user = await User.me();
@@ -27,14 +29,10 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final routeArgs = ModalRoute.of(context)!.settings.arguments ?? {};
-    final route = routeArgs as Map;
-    user = route['user'];
-
     return Scaffold(
       body: SafeArea(
           child: FutureBuilder<void>(
-        future: loadData(),
+        future: loadData(context),
         builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
           switch (snapshot.connectionState) {
             case ConnectionState.waiting:

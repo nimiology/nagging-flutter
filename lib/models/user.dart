@@ -30,7 +30,8 @@ class User {
     String? token = await AuthToken.accessToken();
     try {
       http.Response response = await http.post(
-          Uri.parse('https://twitterbutanonymous.pythonanywhere.com/user/follow/user/$id/'),
+          Uri.parse(
+              'https://twitterbutanonymous.pythonanywhere.com/user/follow/user/$id/'),
           headers: {'Authorization': "Bearer $token"});
       if (response.statusCode != 200) {
         following = !following;
@@ -54,7 +55,8 @@ class User {
     String? token = await AuthToken.accessToken();
     try {
       http.Response response = await http.get(
-          Uri.parse('https://twitterbutanonymous.pythonanywhere.com/user/$id/follower/'
+          Uri.parse(
+              'https://twitterbutanonymous.pythonanywhere.com/user/$id/follower/'
               '?ordering=$ordering&offset=$offset&limit=$limit'),
           headers: {'Authorization': "Bearer $token"});
       final followersJson = json.decode(response.body);
@@ -75,7 +77,8 @@ class User {
     String? token = await AuthToken.accessToken();
     try {
       http.Response response = await http.get(
-          Uri.parse('https://twitterbutanonymous.pythonanywhere.com/user/$id/following/'
+          Uri.parse(
+              'https://twitterbutanonymous.pythonanywhere.com/user/$id/following/'
               '?ordering=$ordering&offset=$offset&limit=$limit'),
           headers: {'Authorization': "Bearer $token"});
       final followingJson = json.decode(response.body);
@@ -91,21 +94,30 @@ class User {
     return [];
   }
 
-  Future updateUser({String? bioParameters}) async {
+  Future updateUser(
+      {String? bioParameters,
+      String? locationParameters,
+      String? linkParameters}) async {
     String? token = await AuthToken.accessToken();
     try {
-      var request = http.MultipartRequest(
-        'PATCH',
-        Uri.parse('https://twitterbutanonymous.pythonanywhere.com/auth/users/me/'),
-      );
-      request.headers.addAll({'Authorization': "Bearer $token"});
+      final requestBody = {};
       if (bio != null || bioParameters != null) {
-        request.fields['bio'] = (bioParameters ?? bio)!;
+        requestBody['bio'] = (bioParameters ?? bio)!;
       }
-      var res = await request.send();
-      final userJson =
-          json.decode(String.fromCharCodes(await res.stream.toBytes()));
-      if (res.statusCode == 200) {
+      if (link != null || linkParameters != null) {
+        requestBody['link'] = (linkParameters ?? link)!;
+      }
+      if (location != null || locationParameters != null) {
+        requestBody['location'] = (locationParameters ?? location)!;
+      }
+
+      var request = await http.patch(
+          Uri.parse(
+              'https://twitterbutanonymous.pythonanywhere.com/auth/users/me/'),
+          headers: {'Authorization': "Bearer $token"},
+          body: requestBody);
+      final userJson = json.decode(request.body);
+      if (request.statusCode == 200) {
         final user = User.userFromMap(userJson);
         return user;
       }
@@ -129,7 +141,8 @@ class User {
   static Future<User> requestUserWithID(int id) async {
     String? token = await AuthToken.accessToken();
     http.Response response = await http.get(
-        Uri.parse('https://twitterbutanonymous.pythonanywhere.com/user/get/$id'),
+        Uri.parse(
+            'https://twitterbutanonymous.pythonanywhere.com/user/get/$id'),
         headers: {'Authorization': "Bearer $token"});
     final userJson = json.decode(response.body);
     return User.userFromMap(userJson);
@@ -138,7 +151,8 @@ class User {
   static Future<User> me() async {
     String? token = await AuthToken.accessToken();
     http.Response response = await http.get(
-        Uri.parse('https://twitterbutanonymous.pythonanywhere.com/auth/users/me/'),
+        Uri.parse(
+            'https://twitterbutanonymous.pythonanywhere.com/auth/users/me/'),
         headers: {'Authorization': "Bearer $token"});
     final userJson = json.decode(response.body);
     return User.userFromMap(userJson);

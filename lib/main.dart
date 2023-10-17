@@ -5,6 +5,7 @@ import 'helper/auth_jwt_token_helper.dart';
 import 'screens/login.dart';
 import 'screens/nags.dart';
 import 'screens/profile.dart';
+import 'screens/settings.dart';
 import 'screens/signup.dart';
 
 void main() {
@@ -82,6 +83,7 @@ class MyApp extends StatelessWidget {
                 SignUpScreen.routeName: (ctx) => const SignUpScreen(),
                 NagsScreen.routeName: (ctx) => const NagsScreen(),
                 ProfileScreen.routeName: (ctx) => ProfileScreen(),
+                SettingScreen.routeName: (ctx) => SettingScreen(),
               },
             );
           } else {

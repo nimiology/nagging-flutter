@@ -48,7 +48,8 @@ class _LoginScreenState extends State<LoginScreen>
       if (username.isNotEmpty && password.isNotEmpty) {
         try {
           http.Response response = await http.post(
-              Uri.parse('https://twitterbutanonymous.pythonanywhere.com/auth/jwt/create/'),
+              Uri.parse(
+                  'https://twitterbutanonymous.pythonanywhere.com/auth/jwt/create/'),
               body: {'id': username, 'password': password});
           var tokensMap = json.decode(response.body);
           switch (response.statusCode) {
@@ -105,12 +106,6 @@ class _LoginScreenState extends State<LoginScreen>
                   style: GoogleFonts.lato(
                       fontWeight: FontWeight.bold, fontSize: 35)),
             ),
-            Container(
-              margin: const EdgeInsets.only(top: 15, left: 40, right: 60),
-              alignment: Alignment.centerLeft,
-              child: Text('lorem ipsum dolor site atemp   kha to kon',
-                  style: GoogleFonts.lato(fontSize: 15)),
-            ),
             const SizedBox(
               height: 20,
             ),
@@ -122,74 +117,72 @@ class _LoginScreenState extends State<LoginScreen>
                 ),
               ),
               child: Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: SingleChildScrollView(
-                    child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    CustomTextField(
-                      controller: usernameController,
-                      hintText: 'ID',
-                      svg: 'user.svg',
-                      enabled: !sending,
-                      error: usernameError,
-                    ),
-                    const SizedBox(height: 25),
-                    CustomTextField(
-                      controller: passwordController,
-                      hintText: 'Password',
-                      svg: 'lock.svg',
-                      obscureText: true,
-                      enabled: !sending,
-                      error: passwordError,
-                    ),
-                    errorText.isNotEmpty
-                        ? Center(
-                            child: Container(
-                                margin:
-                                    const EdgeInsets.symmetric(vertical: 25),
-                                child: Text(
-                                  errorText,
-                                  textAlign: TextAlign.center,
-                                  style: theme.textTheme.headline4!
-                                      .copyWith(color: Colors.red),
-                                )),
-                          )
-                        : const SizedBox(height: 30),
-                    LoginButton(
-                        loading: sending,
-                        function: () async {
-                          login(context);
-                        },
-                        title: 'Log In'),
-                    const SizedBox(height: 35),
-                    GestureDetector(
-                      onTap: () => Navigator.of(context).popAndPushNamed(
-                        SignUpScreen.routeName,
+                  padding: const EdgeInsets.all(20.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      CustomTextField(
+                        controller: usernameController,
+                        hintText: 'ID',
+                        svg: 'user.svg',
+                        enabled: !sending,
+                        error: usernameError,
                       ),
-                      child: Container(
-                        margin: const EdgeInsets.only(left: 25),
-                        child: RichText(
-                          text: TextSpan(
-                            children: [
-                              const TextSpan(
-                                text: 'No Account? ',
-                              ),
-                              TextSpan(
-                                text: 'Create One',
-                                style: theme.textTheme.bodyLarge?.copyWith(
-                                    color:
-                                        const Color.fromRGBO(15, 106, 255, 1)),
-                              ),
-                            ],
-                            style: theme.textTheme.bodyLarge,
+                      const SizedBox(height: 25),
+                      CustomTextField(
+                        controller: passwordController,
+                        hintText: 'Password',
+                        svg: 'lock.svg',
+                        obscureText: true,
+                        enabled: !sending,
+                        error: passwordError,
+                      ),
+                      errorText.isNotEmpty
+                          ? Center(
+                              child: Container(
+                                  margin:
+                                      const EdgeInsets.symmetric(vertical: 25),
+                                  child: Text(
+                                    errorText,
+                                    textAlign: TextAlign.center,
+                                    style: theme.textTheme.headline4!
+                                        .copyWith(color: Colors.red),
+                                  )),
+                            )
+                          : const SizedBox(height: 30),
+                      LoginButton(
+                          loading: sending,
+                          function: () async {
+                            login(context);
+                          },
+                          title: 'Log In'),
+                      const SizedBox(height: 35),
+                      GestureDetector(
+                        onTap: () => Navigator.of(context).popAndPushNamed(
+                          SignUpScreen.routeName,
+                        ),
+                        child: Container(
+                          margin: const EdgeInsets.only(left: 15),
+                          child: RichText(
+                            text: TextSpan(
+                              children: [
+                                const TextSpan(
+                                  text: 'No Account? ',
+                                ),
+                                TextSpan(
+                                  text: 'Create One',
+                                  style: theme.textTheme.bodyLarge?.copyWith(
+                                      color: const Color.fromRGBO(
+                                          15, 106, 255, 1)),
+                                ),
+                              ],
+                              style: theme.textTheme.bodyLarge,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
-                )),
-              ),
+                    ],
+                  )),
             ),
           ],
         ),

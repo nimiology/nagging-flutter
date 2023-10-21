@@ -138,84 +138,74 @@ class _SignUpScreenState extends State<SignUpScreen>
                   style: GoogleFonts.lato(
                       fontWeight: FontWeight.bold, fontSize: 35)),
             ),
-            Container(
-              margin: const EdgeInsets.only(top: 15, left: 40, right: 100),
-              alignment: Alignment.centerLeft,
-              child: Text('lorem ipsum dolor site atemp   kha to kon',
-                  style: GoogleFonts.lato(fontSize: 15)),
-            ),
             const SizedBox(
               height: 20,
             ),
-            Expanded(
-              child: Container(
-                width: double.infinity,
-                decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(30),
-                    topRight: Radius.circular(30),
-                  ),
+            Container(
+              decoration: const BoxDecoration(
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(30),
+                  topRight: Radius.circular(30),
                 ),
-                child: Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: SingleChildScrollView(
-                      child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      CustomTextField(
-                        controller: passwordController,
-                        hintText: 'Password',
-                        svg: 'lock.svg',
-                        obscureText: true,
-                        enabled: !sending,
-                        error: passwordError,
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                    child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    CustomTextField(
+                      controller: passwordController,
+                      hintText: 'Password',
+                      svg: 'lock.svg',
+                      obscureText: true,
+                      enabled: !sending,
+                      error: passwordError,
+                    ),
+                    errorText.isNotEmpty
+                        ? Center(
+                            child: Container(
+                                margin:
+                                    const EdgeInsets.symmetric(vertical: 25),
+                                child: Text(
+                                  errorText,
+                                  textAlign: TextAlign.center,
+                                  style: theme.textTheme.headline4!
+                                      .copyWith(color: Colors.red),
+                                )),
+                          )
+                        : const SizedBox(height: 30),
+                    LoginButton(
+                        loading: sending,
+                        function: () async {
+                          login(context);
+                        },
+                        title: 'Create Account'),
+                    const SizedBox(height: 35),
+                    GestureDetector(
+                      onTap: () => Navigator.of(context).pushNamed(
+                        LoginScreen.routeName,
                       ),
-                      errorText.isNotEmpty
-                          ? Center(
-                              child: Container(
-                                  margin:
-                                      const EdgeInsets.symmetric(vertical: 25),
-                                  child: Text(
-                                    errorText,
-                                    textAlign: TextAlign.center,
-                                    style: theme.textTheme.headline4!
-                                        .copyWith(color: Colors.red),
-                                  )),
-                            )
-                          : const SizedBox(height: 30),
-                      LoginButton(
-                          loading: sending,
-                          function: () async {
-                            login(context);
-                          },
-                          title: 'Create Account'),
-                      const SizedBox(height: 35),
-                      GestureDetector(
-                        onTap: () => Navigator.of(context).pushNamed(
-                          LoginScreen.routeName,
-                        ),
-                        child: Container(
-                          margin: const EdgeInsets.only(left: 25),
-                          child: RichText(
-                            text: TextSpan(
-                              children: [
-                                const TextSpan(
-                                  text: 'Already have an account? ',
-                                ),
-                                TextSpan(
-                                  text: 'Log in',
-                                  style: theme.textTheme.bodyLarge?.copyWith(
-                                      color: const Color.fromRGBO(
-                                          15, 106, 255, 1)),
-                                ),
-                              ],
-                              style: theme.textTheme.bodyLarge,
-                            ),
+                      child: Container(
+                        margin: const EdgeInsets.only(left: 15),
+                        child: RichText(
+                          text: TextSpan(
+                            children: [
+                              const TextSpan(
+                                text: 'Already have an account? ',
+                              ),
+                              TextSpan(
+                                text: 'Log in',
+                                style: theme.textTheme.bodyLarge?.copyWith(
+                                    color: const Color.fromRGBO(
+                                        15, 106, 255, 1)),
+                              ),
+                            ],
+                            style: theme.textTheme.bodyLarge,
                           ),
                         ),
                       ),
-                    ],
-                  )),
+                    )
+                  ],
                 ),
               ),
             ),

@@ -53,7 +53,7 @@ class CustomAppBar extends StatelessWidget {
             ],
           ),
         ),
-        if (divider) const Divider()
+        if (divider) const Divider(thickness: 1,)
       ],
     );
   }

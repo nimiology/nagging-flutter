@@ -37,12 +37,14 @@ class _NaggingScreenState extends State<NaggingScreen> {
               Icons.add,
               color: Colors.white,
             )),
-        body: InfiniteScrollScreen(
-          key: _refreshKey,
-          getNags: Nag.getNags,
-          children: const [
-            NaggingAppBar(),
-          ],
+        body: SafeArea(
+          child: InfiniteScrollScreen(
+            key: _refreshKey,
+            getNags: NagModel.getNags,
+            children: const [
+              NaggingAppBar(),
+            ],
+          ),
         ));
   }
 }

@@ -3,12 +3,14 @@ import 'package:flutter_svg/svg.dart';
 import 'package:share_plus/share_plus.dart';
 
 import '../models/nag.dart';
+import '../screens/comment.dart';
 import '../screens/profile.dart';
 
 class NagWidget extends StatefulWidget {
-  final Nag nag;
+  final NagModel nag;
+  final bool commentActive;
 
-  NagWidget({super.key, required this.nag});
+  const NagWidget({super.key, required this.nag, this.commentActive=false});
 
   @override
   State<NagWidget> createState() => _NagWidgetState();
@@ -94,11 +96,10 @@ class _NagWidgetState extends State<NagWidget> {
                     )
                 ],
               ),
-              GestureDetector(
+              if(widget.commentActive)GestureDetector(
                   onTap: () {
-                    Share.share(
-                        'check out this artwork https://twitterbutanonymous.pythonanywhere.com/tweet/${widget.nag.id}',
-                        subject: 'Check this artwork.');
+                    Navigator.of(context)
+                        .pushNamed(CommentScreen.routeName, arguments: {"nag": widget.nag});
                   },
                   child: SvgPicture.asset('assets/svg/comment.svg',
                       width: 24, height: 24, color: Colors.white)),

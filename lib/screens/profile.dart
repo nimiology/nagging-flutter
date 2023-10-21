@@ -46,7 +46,7 @@ class ProfileScreen extends StatelessWidget {
                     #owner: user.id.toString(),
                     #ordering: '-created_date',
                   },
-                  getNags: Nag.getNags,
+                  getNags: NagModel.getNags,
                   children: [
                     ProfileHeader(
                         user: user,

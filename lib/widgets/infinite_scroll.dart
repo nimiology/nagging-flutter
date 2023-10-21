@@ -6,7 +6,7 @@ import 'nag.dart';
 
 class InfiniteScrollScreen extends StatefulWidget {
   final List<Widget> children;
-  final Future<List<Nag>> Function() getNags;
+  final Future<List<NagModel>> Function() getNags;
   final Map<Symbol, dynamic> functionParams;
 
   const InfiniteScrollScreen({
@@ -23,7 +23,7 @@ class InfiniteScrollScreen extends StatefulWidget {
 
 class InfiniteScrollScreenState extends State<InfiniteScrollScreen> {
   final _controller = ScrollController();
-  List<Nag> nags = [];
+  List<NagModel> nags = [];
   int _pageSize = 10;
   int offset = 0;
   bool _isLastPage = false;
@@ -70,7 +70,7 @@ class InfiniteScrollScreenState extends State<InfiniteScrollScreen> {
     };
     final newItems = await Function.apply(widget.getNags, [], functionParams);
     offset += _pageSize;
-    for (Nag nag in newItems) {
+    for (NagModel nag in newItems) {
       nags.add(nag);
     }
     _isLastPage = newItems.length < _pageSize;
@@ -110,7 +110,7 @@ class InfiniteScrollScreenState extends State<InfiniteScrollScreen> {
             shrinkWrap: true,
             physics: const ScrollPhysics(),
             itemCount: nags.length,
-            itemBuilder: (context, index) => NagWidget(nag: nags[index]),
+            itemBuilder: (context, index) => NagWidget(nag: nags[index], commentActive: true),
           ),
           if (!_isLastPage)
             const SizedBox(

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'helper/auth_jwt_token_helper.dart';
+import 'screens/comment.dart';
 import 'screens/login.dart';
 import 'screens/nag.dart';
 import 'screens/nagging.dart';
@@ -86,6 +87,7 @@ class MyApp extends StatelessWidget {
                 ProfileScreen.routeName: (ctx) => ProfileScreen(),
                 SettingScreen.routeName: (ctx) => SettingScreen(),
                 NagScreen.routeName: (ctx) => NagScreen(),
+                CommentScreen.routeName: (ctx) => CommentScreen(),
               },
             );
           } else {

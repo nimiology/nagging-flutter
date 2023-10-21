@@ -31,7 +31,7 @@ class _NagScreenState extends State<NagScreen> {
               nagging = true;
               setState(() {});
               final nagContent = nagController.text;
-              final requestStatusCode = await Nag.nag(nagContent, replyId);
+              final requestStatusCode = await NagModel.nag(nagContent, replyId);
               nagging = false;
               if (requestStatusCode == 201) {
                 Navigator.of(context).pop(true);

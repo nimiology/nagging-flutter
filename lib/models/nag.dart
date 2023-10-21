@@ -6,16 +6,16 @@ import 'user.dart';
 
 import 'package:http/http.dart' as http;
 
-class Nag {
+class NagModel {
   final int id;
   final User owner;
   final String content;
   final DateTime createdAt;
-  final Nag? reply;
+  final NagModel? reply;
   int? userLike;
   int likesCount;
 
-  Nag({
+  NagModel({
     required this.id,
     required this.owner,
     required this.content,
@@ -73,8 +73,8 @@ class Nag {
     }
   }
 
-  static Nag nagFromDict(Map nagJson) {
-    return Nag(
+  static NagModel nagFromDict(Map nagJson) {
+    return NagModel(
       id: nagJson['id'],
       owner: User.minimalUserFromMap(nagJson['owner']),
       content: nagJson['content'],
@@ -87,7 +87,7 @@ class Nag {
     );
   }
 
-  static Future<List<Nag>> getNags({
+  static Future<List<NagModel>> getNags({
     String owner = '',
     String reply = '',
     String content__icontains = '',
@@ -108,9 +108,9 @@ class Nag {
               '&ordering=$ordering&offset=$offset&limit=$limit'),
           headers: {'Authorization': "Bearer $token"});
       final nagsJson = json.decode(response.body)['results'];
-      List<Nag> nags = [];
+      List<NagModel> nags = [];
       for (Map nagJson in nagsJson) {
-        nags.add(Nag.nagFromDict(nagJson));
+        nags.add(NagModel.nagFromDict(nagJson));
       }
 
       return nags;

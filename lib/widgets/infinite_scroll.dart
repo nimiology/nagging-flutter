@@ -17,13 +17,14 @@ class InfiniteScrollScreen extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<InfiniteScrollScreen> createState() => _InfiniteScrollScreenState();
+  State<InfiniteScrollScreen> createState() => InfiniteScrollScreenState();
+
 }
 
-class _InfiniteScrollScreenState extends State<InfiniteScrollScreen> {
+class InfiniteScrollScreenState extends State<InfiniteScrollScreen> {
   final _controller = ScrollController();
   List<Nag> nags = [];
-  int _pageSize = 20;
+  int _pageSize = 10;
   int offset = 0;
   bool _isLastPage = false;
   bool _isLoading = false;
@@ -105,7 +106,6 @@ class _InfiniteScrollScreenState extends State<InfiniteScrollScreen> {
         controller: _controller,
         children: [
           ...widget.children,
-          // list
           ListView.builder(
             shrinkWrap: true,
             physics: const ScrollPhysics(),

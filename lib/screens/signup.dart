@@ -66,7 +66,7 @@ class _SignUpScreenState extends State<SignUpScreen>
                       case 200:
                         {
                           AuthToken.saveFromMap(tokensMap);
-                          Navigator.popAndPushNamed(context, NagsScreen.routeName);
+                          Navigator.popAndPushNamed(context, NaggingScreen.routeName);
                           break;
                         }
                       case 400:

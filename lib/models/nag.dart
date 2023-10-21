@@ -51,9 +51,26 @@ class Nag {
     } on SocketException catch (_) {
       print("There is no internet connection");
     } catch (_) {
-      throw _;
+      rethrow;
     }
     return userLike;
+  }
+
+  static Future<int> nag(String content, int? reply) async {
+    try {
+      String? token = await AuthToken.accessToken();
+      final body = {'content': content,};
+      if (reply != null){
+        body['reply']= reply.toString();
+      }
+      http.Response response = await http.post(
+          Uri.parse('https://twitterbutanonymous.pythonanywhere.com/tweet/'),
+          headers: {'Authorization': "Bearer $token"},
+          body: body);
+      return response.statusCode;
+    } catch (_) {
+      rethrow;
+    }
   }
 
   static Nag nagFromDict(Map nagJson) {
@@ -77,7 +94,7 @@ class Nag {
     String created_at__gte = '',
     String created_at__lte = '',
     String created_at = '',
-    String ordering = '',
+    String ordering = '-id',
     String limit = '',
     String offset = '',
   }) async {

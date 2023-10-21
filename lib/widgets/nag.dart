@@ -21,12 +21,13 @@ class _NagWidgetState extends State<NagWidget> {
     if (!liking) {
       liking = true;
       final userLike = widget.nag.userLike;
-      if (widget.nag.userLike != null) {
-        widget.nag.userLike = null;
-      } else {
-        widget.nag.userLike = 0;
-      }
-      setState(() {});
+      setState(() {
+        if (widget.nag.userLike != null) {
+          widget.nag.userLike = null;
+        } else {
+          widget.nag.userLike = 0;
+        }
+      });
       widget.nag.userLike = userLike;
       widget.nag.userLike = await widget.nag.like();
       setState(() {});
@@ -44,10 +45,8 @@ class _NagWidgetState extends State<NagWidget> {
         children: [
           GestureDetector(
             onTap: () {
-              Navigator.of(context).pushNamed(
-                ProfileScreen.routeName,
-                arguments: {"user": widget.nag.owner}
-              );
+              Navigator.of(context).pushNamed(ProfileScreen.routeName,
+                  arguments: {"user": widget.nag.owner});
             },
             child: SizedBox(
               child: Text(

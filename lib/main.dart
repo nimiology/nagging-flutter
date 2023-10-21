@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'helper/auth_jwt_token_helper.dart';
 import 'screens/login.dart';
+import 'screens/nag.dart';
 import 'screens/nagging.dart';
 import 'screens/profile.dart';
 import 'screens/settings.dart';
@@ -76,14 +77,15 @@ class MyApp extends StatelessWidget {
                     ),
                   )),
               initialRoute: isLoggedIn
-                  ? NagsScreen.routeName
+                  ? NaggingScreen.routeName
                   : LoginScreen.routeName,
               routes: {
                 LoginScreen.routeName: (ctx) => const LoginScreen(),
                 SignUpScreen.routeName: (ctx) => const SignUpScreen(),
-                NagsScreen.routeName: (ctx) => const NagsScreen(),
+                NaggingScreen.routeName: (ctx) => const NaggingScreen(),
                 ProfileScreen.routeName: (ctx) => ProfileScreen(),
                 SettingScreen.routeName: (ctx) => SettingScreen(),
+                NagScreen.routeName: (ctx) => NagScreen(),
               },
             );
           } else {

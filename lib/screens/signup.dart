@@ -48,24 +48,24 @@ class _SignUpScreenState extends State<SignUpScreen>
 
       if (password.isNotEmpty ) {
           try {
-            http.Response response = await http.post(
+            final http.Response response1 = await http.post(
                 Uri.parse('https://twitterbutanonymous.pythonanywhere.com/auth/users/'),
                 body: {
                   'password': password
                 });
-            final Map idMap = json.decode(response.body);
-            switch (response.statusCode) {
+            final Map idMap = json.decode(response1.body);
+            switch (response1.statusCode) {
               case 201:
                 {
                   try {
-                    http.Response response = await http.post(
+                    final http.Response response2 = await http.post(
                         Uri.parse('https://twitterbutanonymous.pythonanywhere.com/auth/jwt/create/'),
-                        body: {'id': idMap['id'], 'password': password});
-                    var tokensMap = json.decode(response.body);
-                    switch (response.statusCode) {
+                        body: {'id': idMap['id'].toString(), 'password': password});
+                    final Map tokensMap = json.decode(response2.body);
+                    switch (response2.statusCode) {
                       case 200:
                         {
-                          AuthToken.saveFromMap(tokensMap);
+                          await AuthToken.saveFromMap(tokensMap);
                           Navigator.popAndPushNamed(context, NaggingScreen.routeName);
                           break;
                         }
@@ -90,7 +90,6 @@ class _SignUpScreenState extends State<SignUpScreen>
                   } catch (e) {
                     errorText = "Something went wrong";
                   }
-                  Navigator.pop(context);
                   break;
                 }
               case 400:
@@ -113,7 +112,7 @@ class _SignUpScreenState extends State<SignUpScreen>
             errorText = "There is no internet connection";
           } catch (_) {
             errorText = "Something went wrong";
-            throw (_);
+            rethrow;
         }
       } else {
         passwordError = true;

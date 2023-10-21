@@ -11,7 +11,7 @@ class NagModel {
   final User owner;
   final String content;
   final DateTime createdAt;
-  final NagModel? reply;
+  final int? reply;
   int? userLike;
   int likesCount;
 

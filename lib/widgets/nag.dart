@@ -61,6 +61,16 @@ class _NagWidgetState extends State<NagWidget> {
           const SizedBox(
             height: 15,
           ),
+          if (widget.nag.reply != null)SizedBox(
+            child: Text(
+              "reply to ${widget.nag.reply}",
+              style: theme.textTheme.titleSmall
+                  ?.copyWith(fontWeight: FontWeight.w900),
+            ),
+          ),
+          if (widget.nag.reply != null) const SizedBox(
+            height: 15,
+          ),
           Text(
             widget.nag.content,
             style: theme.textTheme.bodyLarge,

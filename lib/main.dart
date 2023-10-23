@@ -87,7 +87,7 @@ class MyApp extends StatelessWidget {
                 ProfileScreen.routeName: (ctx) => ProfileScreen(),
                 SettingScreen.routeName: (ctx) => SettingScreen(),
                 NagScreen.routeName: (ctx) => NagScreen(),
-                CommentScreen.routeName: (ctx) => CommentScreen(),
+                CommentScreen.routeName: (ctx) => const CommentScreen(),
               },
             );
           } else {
